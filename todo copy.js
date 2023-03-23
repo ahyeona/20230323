@@ -1,9 +1,10 @@
-let index = 0;
+// window.localStorage.clear();
+let index=0;
+let indexarr=[];
 
 // 추가버튼 누르면 추가되는 함수
 function addList() {
   let inputs = document.querySelectorAll("input");
-  // let value = window.localStorage.getItem(index);
 
   let todo = "실행";
 
@@ -25,27 +26,11 @@ function addList() {
 
   window.localStorage.setItem(
     `${index}`,
-    `{ "tlfgodduqn" : "${todo}", "dlf" : "${inputs[1].value}", "rlgks" : "${inputs[2].value}", "dntjs" : "${rankvalue}", "index": ${index} }`
+    `{ "todo" : "${todo}", "work" : "${inputs[1].value}", "deadline" : "${inputs[2].value}", "rank" : "${rankvalue}", "index": ${index} }`
   );
+  indexarr.push(index);
   index++;
-  console.log("index :", index);
-
-  // if (window.localStorage.length == 0) {
-  //   window.localStorage.setItem(
-  //     `${index}`,
-  //     `{ "tlfgodduqn" : "${todo}", "dlf" : "${inputs[1].value}", "rlgks" : "${inputs[2].value}", "dntjs" : "${rankvalue}", "index": ${index} }`
-  //   );
-  //   index++;
-  // }
-  // else {
-  //   window.localStorage.setItem(
-  //     `${index}`,
-  //     value +
-  //       "|" +
-  //       `{ "tlfgodduqn" : "${todo}", "dlf" : "${inputs[1].value}", "rlgks" : "${inputs[2].value}", "dntjs" : "${rankvalue}", "index": ${index} }`
-  //   );
-  //   index++;
-  // }
+  console.log("index :", indexarr);
 
   console.log(window.localStorage.getItem(index));
 
@@ -61,17 +46,31 @@ function render() {
   _div.innerHTML = "";
 
   let ul = document.createElement("ul");
-  createE(ul, "실행여부", "할 일", "기한", "우선순위", -1, false);
+  let li = document.createElement("li");
+  let div1 = document.createElement("div");
+  let div2 = document.createElement("div");
+  let div3 = document.createElement("div");
+  let div4 = document.createElement("div");
+  div1.innerHTML = "실행여부";
+  div2.innerHTML = "할 일";
+  div3.innerHTML = "기한";
+  div4.innerHTML = "우선순위";
+  li.style.display = "flex";
+  
+  li.append(div1, div2, div3, div4);
 
-  for (let i = 0; i <= index; i++) {
+  ul.append(li);
+
+  for (const i of indexarr) {
     let value = window.localStorage.getItem(i);
     console.log(value);
     if (value) {
       console.log("value", value);
     } else {
       console.log("널값뜸");
+      continue;
     }
-    console.log(JSON.parse(value).tlfgodduqn);
+    console.log(JSON.parse(value).todo);
 
     let li = document.createElement("li");
     let div1 = document.createElement("div");
@@ -80,10 +79,10 @@ function render() {
     let div4 = document.createElement("div");
     let dbtn = document.createElement("button");
 
-    div1.innerHTML = JSON.parse(value).tlfgodduqn;
-    div2.innerHTML = JSON.parse(value).dlf;
-    div3.innerHTML = JSON.parse(value).rlgks;
-    div4.innerHTML = JSON.parse(value).dntjs;
+    div1.innerHTML = JSON.parse(value).todo;
+    div2.innerHTML = JSON.parse(value).work;
+    div3.innerHTML = JSON.parse(value).deadline;
+    div4.innerHTML = JSON.parse(value).rank;
 
     console.log("인덱스 : ", JSON.parse(value).index);
 
@@ -92,21 +91,29 @@ function render() {
     // if (btn) {
 
     dbtn.textContent = "삭제";
-    dbtn.addEventListener("click", deleteBtn(JSON.parse(value).index));
-    li.append(div1, div2, div3, div4, dbtn);
-    // }
-    // else {
-    //   li.append(div1, div2, div3, div4);
-    // }
+    dbtn.addEventListener("click", function() {
+      window.localStorage.removeItem(JSON.parse(value).index);
 
+      indexarr = indexarr.filter(function(e) {
+        return e['index'] !== JSON.parse(value).index;
+      });
+
+      console.log(indexarr);
+      render();
+    });
+    li.append(div1, div2, div3, div4, dbtn);
     ul.append(li);
+  }
+
+  for (let i = 0; i < indexarr.length; i++) {
+    
 
     // createE(
     //   ul,
-    //   JSON.parse(value).tlfgodduqn,
-    //   JSON.parse(value).dlf,
-    //   JSON.parse(value).rlgks,
-    //   JSON.parse(value).dntjs,
+    //   JSON.parse(value).todo,
+    //   JSON.parse(value).work,
+    //   JSON.parse(value).deadline,
+    //   JSON.parse(value).rank,
     //   JSON.parse(value).index,
     //   true
     // );
@@ -117,10 +124,10 @@ function render() {
   // value.forEach(function (i) {
   //   createE(
   //     ul,
-  //     JSON.parse(i).tlfgodduqn,
-  //     JSON.parse(i).dlf,
-  //     JSON.parse(i).rlgks,
-  //     JSON.parse(i).dntjs,
+  //     JSON.parse(i).todo,
+  //     JSON.parse(i).work,
+  //     JSON.parse(i).deadline,
+  //     JSON.parse(i).rank,
   //     true
   //   );
   // });
@@ -130,6 +137,7 @@ function render() {
 
 if (window.localStorage.length != 0) {
   render();
+  console.log("dfdf");
 }
 
 // 태그 생성해주는 함수 (매개변수 : 생성한 li가 추가될 ul, div1, 2 ,3, 4에 들어갈 값들)
@@ -156,9 +164,10 @@ function createE(__ul, content1, content2, content3, content4, index, btn) {
 }
 
 // 삭제;
-function deleteBtn(li) {
-  console.log(li);
-  window.localStorage.removeItem(li);
-  console.log("삭제됨");
-  render();
-}
+// function deleteBtn(li) {
+//   console.log(li);
+//   window.localStorage.removeItem(li);
+//   console.log("삭제됨");
+//   render();
+// }
+
