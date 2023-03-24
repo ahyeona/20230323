@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        text-align: center;
+      }
+      .input-label {
+        align-items: center;
+        margin: auto;
+        display: flex;
+        width: 300px;
+        position: relative;
+      }
+
+      .input-label input {
+        margin: auto;
+      }
+
+      #_div li {
+        margin: 0 auto;
+      }
+      #addBtn {
+        width: 100px;
+        height: 50px;
+        border-radius: 12px;
+        background-color: beige;
+        line-height: 50px;
+        margin-top: 20px;
+        margin-left: 160px;
+      }
+      li {
+        width: 600px;
+        height: 80px;
+      }
+      li > div {
+        width: 150px;
+        height: 80px;
+        border: 1px solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      ul > li:first-child div {
+        height: 50px;
+        font-weight: 600;
+        margin-bottom: 50px;
+      }
+
+      input {
+        margin-left: 0px;
+      }
+      .list {
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        width: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <div><h1>to-do-list</h1></div>
+
+    <div class="list">
+      <div class="input-label">
+        <label for="">실행여부</label>
+        <input type="checkbox" />
+      </div>
+
+      <div class="input-label">
+        <label for="">할 일</label>
+        <input type="text" />
+      </div>
+
+      <div class="input-label">
+        <label for="">기한</label>
+        <input type="date" />
+      </div>
+
+      <div class="input-label">
+        <div style="margin-right: 30px">중요도</div>
+        <label for="">상</label>
+        <input type="radio" name="rank" value="상" />
+        <label for="">중</label>
+        <input type="radio" name="rank" value="중" />
+        <label for="">하</label>
+        <input type="radio" name="rank" value="하" />
+      </div>
+
+      <div class="input-label"></div>
+      <div class="input-label">
+        <div id="addBtn">추가</div>
+      </div>
+    </div>
+
+    <div id="_div"></div>
+  </body>
+  <script src="./todo copy.js"></script>
+</html>

@@ -1,5 +1,8 @@
 // 쿠키, 세션, 로컬 스토리지
 
+let index = new Date().getTime();
+console.log(index);
+
 // 쿠키
 
 function createCookie(name, value) {
